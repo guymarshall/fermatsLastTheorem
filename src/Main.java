@@ -1,25 +1,32 @@
+import java.math.BigInteger;
+
 public class Main
 {
     public static void main(String[] args)
     {
-        final int limit = 8;
+        final BigInteger limit = BigInteger.valueOf(8);
 
-        for (int exponent = 3; exponent <= limit; exponent++)
+        BigInteger exponent = BigInteger.valueOf(3);
+        BigInteger x = BigInteger.ONE;
+        BigInteger y = BigInteger.ONE;
+        BigInteger z = BigInteger.ONE;
+
+        while (exponent.compareTo(limit) < 1)
         {
-            for (int x = 1; x <= limit; x++)
+            while (x.compareTo(limit) < 1)
             {
-                boolean xIsEven = x % 2 == 0;
-                boolean xIsOdd = x % 2 != 0;
+                boolean xIsEven = x.mod(BigInteger.TWO).equals(BigInteger.ZERO);
+                boolean xIsOdd = !x.mod(BigInteger.TWO).equals(BigInteger.ZERO);
 
-                for (int y = 1; y <= limit; y++)
+                while (y.compareTo(limit) < 1)
                 {
-                    boolean yIsEven = y % 2 == 0;
-                    boolean yIsOdd = y % 2 != 0;
+                    boolean yIsEven = y.mod(BigInteger.TWO).equals(BigInteger.ZERO);
+                    boolean yIsOdd = !y.mod(BigInteger.TWO).equals(BigInteger.ZERO);
 
-                    for (int z = 1; z <= limit; z++)
+                    while (z.compareTo(limit) < 1)
                     {
-                        boolean zIsEven = z % 2 == 0;
-                        boolean zIsOdd = z % 2 != 0;
+                        boolean zIsEven = z.mod(BigInteger.TWO).equals(BigInteger.ZERO);
+                        boolean zIsOdd = !z.mod(BigInteger.TWO).equals(BigInteger.ZERO);
 
                         if (xIsEven && yIsOdd && zIsEven)
                         {
@@ -31,17 +38,22 @@ public class Main
                             continue;
                         }
 
-                        final int xPowered = (int) Math.pow(x, exponent);
-                        final int yPowered = (int) Math.pow(y, exponent);
-                        final int zPowered = (int) Math.pow(z, exponent);
+                        final BigInteger xPowered = x.pow(exponent.intValue());
+                        final BigInteger yPowered = y.pow(exponent.intValue());
+                        final BigInteger zPowered = z.pow(exponent.intValue());
 
-                        if (xPowered + yPowered == zPowered)
+                        if (xPowered.add(yPowered).equals(zPowered))
                         {
                             System.out.printf("%d^%d + %d^%d = %d^%d%n", x, exponent, y, exponent, z, exponent);
                         }
+
+                        z = z.add(BigInteger.ONE);
                     }
+                    y = y.add(BigInteger.ONE);
                 }
+                x = x.add(BigInteger.ONE);
             }
+            exponent = exponent.add(BigInteger.ONE);
         }
     }
 }
